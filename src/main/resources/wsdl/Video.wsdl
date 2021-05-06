@@ -1,0 +1,115 @@
+<wsdl:definitions targetNamespace="http://ws.soapserver.isdcm" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://ws.soapserver.isdcm">
+    <wsdl:types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://ws.soapserver.isdcm" version="1.0"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:element name="findAllVideoRequest" type="tns:findAllVideoRequest"/>
+            <xs:element name="findVideoByTittleRequest" type="tns:findVideoByTittleRequest"/>
+            <xs:element name="findVideoByAuthorRequest" type="tns:findVideoByAuthorRequest"/>
+            <xs:element name="findVideoByDateRequest" type="tns:findVideoByDateRequest"/>
+            <xs:element name="videoResponse" type="tns:videoResponse"/>
+            <xs:complexType name="findAllVideoRequest"/>
+            <xs:complexType name="findVideoByTittleRequest">
+                <xs:sequence>
+                    <xs:element name="tittle" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="findVideoByAuthorRequest">
+                <xs:sequence>
+                    <xs:element name="author" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="findVideoByDateRequest">
+                <xs:sequence>
+                    <xs:element default="2021" name="year" type="xs:string"/>
+                    <xs:element default="01" name="month" type="xs:string"/>
+                    <xs:element default="01" name="day" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="videoResponse">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:videoDTO"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="videoDTO">
+                <xs:sequence>
+                    <xs:element name="author" type="xs:string"/>
+                    <xs:element name="creationDate" type="xs:string"/>
+                    <xs:element name="description" type="xs:string"/>
+                    <xs:element name="duration" type="xs:string"/>
+                    <xs:element name="format" type="xs:string"/>
+                    <xs:element name="reproduction" type="xs:int"/>
+                    <xs:element name="tittle" type="xs:string"/>
+                    <xs:element name="url" type="xs:string"/>
+                    <xs:element name="videoId" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="videoResponse">
+        <wsdl:part element="tns:videoResponse" name="videoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="findAllVideoRequest">
+        <wsdl:part element="tns:findAllVideoRequest" name="findAllVideoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="findVideoByAuthorRequest">
+        <wsdl:part element="tns:findVideoByAuthorRequest" name="findVideoByAuthorRequest"/>
+    </wsdl:message>
+    <wsdl:message name="findVideoByTittleRequest">
+        <wsdl:part element="tns:findVideoByTittleRequest" name="findVideoByTittleRequest"/>
+    </wsdl:message>
+    <wsdl:message name="findVideoByDateRequest">
+        <wsdl:part element="tns:findVideoByDateRequest" name="findVideoByDateRequest"/>
+    </wsdl:message>
+    <wsdl:portType name="VideoPort">
+        <wsdl:operation name="findAllVideo">
+            <wsdl:input message="tns:findAllVideoRequest" name="findAllVideoRequest"/>
+            <wsdl:output message="tns:videoResponse" name="videoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="findVideoByAuthor">
+            <wsdl:input message="tns:findVideoByAuthorRequest" name="findVideoByAuthorRequest"/>
+            <wsdl:output message="tns:videoResponse" name="videoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="findVideoByTittle">
+            <wsdl:input message="tns:findVideoByTittleRequest" name="findVideoByTittleRequest"/>
+            <wsdl:output message="tns:videoResponse" name="videoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="findVideoByDate">
+            <wsdl:input message="tns:findVideoByDateRequest" name="findVideoByDateRequest"/>
+            <wsdl:output message="tns:videoResponse" name="videoResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="VideoPortSoap11" type="tns:VideoPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="findAllVideo">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="findAllVideoRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="findVideoByAuthor">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="findVideoByAuthorRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="findVideoByTittle">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="findVideoByTittleRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="findVideoByDate">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="findVideoByDateRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="VideoPortService">
+        <wsdl:port binding="tns:VideoPortSoap11" name="VideoPortSoap11">
+            <soap:address location="http://localhost:53020/soapserver-0.0.1-SNAPSHOT/ws"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
