@@ -30,6 +30,10 @@
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
     </div>
 </div>
+<div>
+    <button onclick="location.href='${pageContext.request.contextPath}/securityXML'" type="button">
+        XML Encryption/Decryption</button>
+</div>
 <div class="video-page">
     <div class="video-form">
         <h1>Video Registration</h1>
