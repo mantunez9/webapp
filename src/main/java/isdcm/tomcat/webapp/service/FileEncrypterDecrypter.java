@@ -43,7 +43,6 @@ public class FileEncrypterDecrypter {
             fileIn.read(fileIv);
             cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(fileIv));
 
-
             CipherInputStream cipherIn = new CipherInputStream(fileIn, cipher);
             InputStreamReader inputReader = new InputStreamReader(cipherIn);
             BufferedReader reader = new BufferedReader(inputReader);

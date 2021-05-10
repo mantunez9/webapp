@@ -34,6 +34,10 @@
     <button onclick="location.href='${pageContext.request.contextPath}/securityXML'" type="button">
         XML Encryption/Decryption</button>
 </div>
+<div>
+    <button onclick="location.href='${pageContext.request.contextPath}/securityContent'" type="button">
+        Content Encryption/Decryption</button>
+</div>
 <div class="video-page">
     <div class="video-form">
         <h1>Video Registration</h1>
