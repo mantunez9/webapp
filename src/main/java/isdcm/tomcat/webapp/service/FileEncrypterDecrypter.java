@@ -43,24 +43,19 @@ public class FileEncrypterDecrypter {
             fileIn.read(fileIv);
             cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(fileIv));
 
-            try {
 
-                CipherInputStream cipherIn = new CipherInputStream(fileIn, cipher);
-                InputStreamReader inputReader = new InputStreamReader(cipherIn);
-                BufferedReader reader = new BufferedReader(inputReader);
+            CipherInputStream cipherIn = new CipherInputStream(fileIn, cipher);
+            InputStreamReader inputReader = new InputStreamReader(cipherIn);
+            BufferedReader reader = new BufferedReader(inputReader);
 
-                StringBuilder sb = new StringBuilder();
-                String line;
+            StringBuilder sb = new StringBuilder();
+            String line;
 
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                content = sb.toString();
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
             }
+
+            content = sb.toString();
 
         } catch (IOException | InvalidAlgorithmParameterException | InvalidKeyException e) {
             e.printStackTrace();
