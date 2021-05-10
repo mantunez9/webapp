@@ -17,6 +17,7 @@ public class FileEncrypterDecrypter {
     }
 
     void encrypt(String content, String fileName) throws InvalidKeyException {
+
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         byte[] iv = cipher.getIV();
 
