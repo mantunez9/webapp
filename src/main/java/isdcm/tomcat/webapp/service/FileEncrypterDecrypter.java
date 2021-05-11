@@ -6,8 +6,6 @@ import javax.crypto.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 @Slf4j
@@ -46,7 +44,7 @@ public class FileEncrypterDecrypter {
 
     }
 
-    public void decrypt(String inputFile, String ouputFile) throws IOException, InvalidKeyException {
+    public void decrypt(String inputFile, String ouputFile) {
 
         try {
 
