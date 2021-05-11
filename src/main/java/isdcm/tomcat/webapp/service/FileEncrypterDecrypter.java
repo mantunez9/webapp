@@ -3,9 +3,10 @@ package isdcm.tomcat.webapp.service;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import java.io.*;
-import java.security.InvalidAlgorithmParameterException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -13,63 +14,56 @@ import java.security.NoSuchAlgorithmException;
 public class FileEncrypterDecrypter {
 
     private final SecretKey secretKey;
-    private final Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    private final Cipher cipher = Cipher.getInstance("AES");
+    int read;
 
     public FileEncrypterDecrypter(SecretKey secretKey) throws NoSuchPaddingException, NoSuchAlgorithmException {
         this.secretKey = secretKey;
     }
 
-    public void encrypt(String inputFile, String ouputFile) throws InvalidKeyException, FileNotFoundException {
+    public void encrypt(String inputFile, String ouputFile) {
 
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        byte[] iv = cipher.getIV();
+        try {
 
-        File file = new File(inputFile);
-        FileInputStream fileIn = new FileInputStream(file);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
-        try (FileOutputStream fileOut = new FileOutputStream(ouputFile);
+            File file = new File(inputFile);
+            FileInputStream fileIn = new FileInputStream(file);
+            FileOutputStream fileOut = new FileOutputStream(ouputFile);
 
-             CipherOutputStream cipherOut = new CipherOutputStream(fileOut, cipher)) {
-            fileOut.write(iv);
+            CipherInputStream cis = new CipherInputStream(fileIn, cipher);
 
-            byte[] fileContent = new byte[(int) file.length()];
-            fileIn.read(fileContent);
-            String s = new String(fileContent);
+            while ((read = cis.read()) != -1) {
+                fileOut.write((char) read);
+                fileOut.flush();
+            }
 
-            cipherOut.write(s.getBytes());
+            fileOut.close();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void decrypt(String inputFile, String ouputFile) {
+    public void decrypt(String inputFile, String ouputFile) throws IOException, InvalidKeyException {
 
-        try (FileInputStream fileIn = new FileInputStream(inputFile);
-             FileOutputStream fout = new FileOutputStream(ouputFile)) {
+        try {
 
-            byte[] fileIv = new byte[16];
-            fileIn.read(fileIv);
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(fileIv));
+            FileInputStream fileIn = new FileInputStream(inputFile);
+            FileOutputStream fileOut = new FileOutputStream(ouputFile);
 
-            try (
-                    CipherInputStream cipherIn = new CipherInputStream(fileIn, cipher);
-                    InputStreamReader inputReader = new InputStreamReader(cipherIn);
-                    BufferedReader reader = new BufferedReader(inputReader)
-            ) {
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            CipherOutputStream cos = new CipherOutputStream(fileOut, cipher);
 
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                fout.write(sb.toString().getBytes());
-
+            while ((read = fileIn.read()) != -1) {
+                cos.write(read);
+                cos.flush();
             }
 
-        } catch (IOException | InvalidAlgorithmParameterException | InvalidKeyException e) {
+            cos.close();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
