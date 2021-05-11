@@ -28,8 +28,8 @@
 </button>
 </div>
 <div class="video-page">
-    <div class="video-form">
-        <h1>Content Encryption/Decryption</h1>
+    <div class="video-form" style="text-align: left;">
+        <h1 style="text-align: center;">Content Encryption/Decryption</h1>
         <form action="securityContent" method="post">
             <p>
                 <label for="inputFile">Input file path: </label>

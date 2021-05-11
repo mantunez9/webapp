@@ -27,8 +27,8 @@
     Back to Video Page</button>
 </div>
 <div class="video-page">
-    <div class="video-form">
-        <h1>XML Encryption/Decryption</h1>
+    <div class="video-form" style="text-align: left;">
+        <h1 style="text-align: center;">XML Encryption/Decryption</h1>
         <form action="securityXML" method="post">
             <p>
                 <label for="inputFile">Input file path: </label>
@@ -41,16 +41,16 @@
             <p>
                 <label>Please select an option: </label>
                 <br><br>
-                <input type="radio" id="enc" name="option" value="enc" checked="checked" style="text-align: left; width: 5%; margin-top:4px">
+                <input type="radio" id="enc" name="option" value="enc" checked="checked" style="width: 5%; margin-top:4px">
                 <label for="enc">XML Encrypt</label>
                 <br><br>
-                <input id="onlyContent" name="onlyContent" type="checkbox" value="1" style="text-align: left; width: 5%; margin-top:4px"/>
+                <input id="onlyContent" name="onlyContent" type="checkbox" value="1" style="width: 5%; margin-top:4px"/>
                 <label for="onlyContent">Only element content encryption</label>
                 <br><br>
-                <label for="nodes">Nodes name: </label>
-                <input id="nodes" name="nodes" type="text" placeholder="If specified, only encrypts the xml nodes matching this name"/>
+                <label for="node">Element name: </label>
+                <input id="node" name="node" type="text" placeholder="If specified, only encrypts the xml node matching this name"/>
                 <br><br>
-                <input type="radio" id="dec" name="option" value="dec" style="text-align: left; width: 5%; margin-top:4px">
+                <input type="radio" id="dec" name="option" value="dec" style="width: 5%; margin-top:4px">
                 <label for="dec">XML Decrypt</label>
             </p>
             <button type="submit">submit</button>
